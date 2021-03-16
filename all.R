@@ -1,0 +1,12 @@
+library(RMassBank)
+library(RMassBankData)
+w <- newMsmsWorkspace()
+files <- list.files(system.file('spectra', package='RMassBankData'), '.mzML', full.names=T)
+w@files <- files[1:2]
+loadList('./Compoundlist.csv')
+loadRmbSettings('mysettings.ini')
+w <- msmsWorkflow(w, mode='pH', steps=1:8, archivename='new_archive')
+mb <- newMbWorkspace(w)
+mb <- resetInfolists(mb)
+mb <- loadInfolists(mb, system.file("infolists", package="RMassBankData"))
+mb <- mbWorkflow(mb)
